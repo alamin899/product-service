@@ -22,7 +22,7 @@ export const verifyToken = async (req, res, next) => {
             },
         });
 
-        req.user = response.data.user;
+        req.user = response.data.data;
         next();
     } catch (err) {
         console.error('Token verification failed:', err?.response?.data || err.message);

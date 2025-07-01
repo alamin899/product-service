@@ -2,7 +2,6 @@ import pool from '../config/db.js';
 
 export const productList = async (req, res) => {
     try {
-        console.log("test")
         const [products] = await pool.execute('SELECT * FROM products');
 
         res.json({

@@ -11,4 +11,8 @@ export const productValidator = [
     body('price')
         .isFloat({ gt: 0 })
         .withMessage('Price must be a number greater than 0'),
+
+    body('quantity')
+        .isInt()
+        .notEmpty(),
 ];

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-ms
+  namespace: microservices
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-ms
+  template:
+    metadata:
+      labels:
+        app: product-ms
+    spec:
+      containers:
+        - name: product-ms
+          image: 127214175530.dkr.ecr.ap-southeast-1.amazonaws.com/ms/product-service:latest
+          ports:
+            - containerPort: 5000

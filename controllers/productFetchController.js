@@ -1,8 +1,10 @@
 import pool from '../config/db.js';
 
 export const productList = async (req, res) => {
+    let connection;
     try {
-        const [products] = await pool.execute('SELECT * FROM products');
+        connection = await pool.getConnection();
+        const [products] = await connection.execute('SELECT * FROM products');
 
         res.json({
             message: "success",
@@ -16,5 +18,7 @@ export const productList = async (req, res) => {
             data: null,
             error: err.message,
         });
+    } finally {
+        if (connection) connection.release();
     }
 };

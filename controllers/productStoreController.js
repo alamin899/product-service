@@ -1,15 +1,19 @@
 import pool from '../config/db.js';
 
 export const storeProduct = async (req, res) => {
-    const { name, price,quantity } = req.body;
+    const { name, price, quantity } = req.body;
+    let connection;
 
     try {
-        await pool.execute(
-            'INSERT INTO products (name, price,quantity) VALUES (?, ?, ?)',
-            [name, price,quantity]
+        connection = await pool.getConnection(); // get connection from pool
+
+        await connection.execute(
+            'INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)',
+            [name, price, quantity]
         );
 
-        const [products] = await pool.execute('SELECT * FROM products order by id desc');
+        const [products] = await connection.execute('SELECT * FROM products ORDER BY id DESC');
+
         res.status(201).json({
             message: "Product created successfully",
             data: products,
@@ -22,5 +26,7 @@ export const storeProduct = async (req, res) => {
             data: null,
             error: err.message,
         });
+    } finally {
+        if (connection) connection.release();
     }
 };

@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(logMiddleware);
+// app.use(logMiddleware);
 
 app.use('/api/products', productRoutes);
 

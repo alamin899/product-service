@@ -13,8 +13,14 @@ const logMiddleware = (req, res, next) => {
   // Log to console
   console.log(`[${logData.timestamp}] ${logData.method} ${logData.url} - IP: ${logData.ip}`);
 
-  // Optional: Log to a file
-  const logFilePath = path.join(__dirname, '../logs/access.log');
+  // Ensure the logs directory exists
+  const logsDir = path.join(__dirname, '../logs');
+  if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+  }
+
+  // Log to a file
+  const logFilePath = path.join(logsDir, 'access.log');
   const logMessage = `[${logData.timestamp}] ${logData.method} ${logData.url} - IP: ${logData.ip}\nHeaders: ${JSON.stringify(logData.headers)}\n\n`;
   fs.appendFile(logFilePath, logMessage, (err) => {
     if (err) {
